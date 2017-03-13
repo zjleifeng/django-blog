@@ -1,0 +1,27 @@
+<!-- Flickr widget -->
+    		<div class="sidebarBlock">
+    			<h4><span>最新评论</span></h4>
+    			<div class="flickrWidget">
+{% for comment in latest_comment_list %}
+<div>
+                     <div style="float: left">
+                            {% if comment.user.img%}
+                                <img src="{{comment.authuser.tximg}}" width="30" height="30" alt="">
+                            {%else%}
+                                <img src="../../static/tx/default.jpg" width="30" height="30" alt="">
+                            {%endif%}
+                        </div>
+                        <div style="padding-left: 20%">
+
+                            <p style="margin-bottom:0px; ">{{comment.username}} 评论:</p>
+
+                                <p>{{comment.content|slice:"25" }}</p>
+</div>
+
+</div>
+
+
+{% endfor %}
+    			</div>
+    		</div>
+    		<!-- End Flickr widget -->

@@ -1,0 +1,22 @@
+{% extends './base.html' %}
+{% block main %}
+    <!-- Breadrumbs -->
+		<ul id="breadCrumbs">
+			<li class="homeButton"><a href="#"></a></li>
+			<li><p>&raquo;</p></li>
+			<li>关于我</li>
+		</ul>
+    	<!-- End Breadrumbs -->
+<div>
+  <h2>程序员就是狗啊</h2>
+  <ul>
+      <p>{{ obj_list.content|linebreaks }}</p>
+  </ul>
+  <h2>About my blog</h2>
+  <p>域 名： <a href="http://www.duanyong.wang" target="_blank">{{ obj_list.sitename }}</a>{{ obj_list.sitedes }}<a href=#" target="_blank">邀你点评</a></p>
+  <p>服务器：腾讯云服务器<a href="#" target="_blank">购买空间</a><a href="#" target="_blank">参考我的空间配置</a></p>
+  <p>程 序：{{ obj_list.uselan }}</p>
+</div>
+
+
+{% endblock %}

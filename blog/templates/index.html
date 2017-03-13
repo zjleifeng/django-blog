@@ -1,0 +1,39 @@
+{% extends './base.html' %}
+
+{% block main %}
+    <!-- Breadrumbs -->
+		<ul id="breadCrumbs">
+			<li class="homeButton"><a href="#"></a></li>
+			<li><p>&raquo;</p></li>
+            <li>{{ first_list }}</li><li><p>&raquo;</p></li><li>{{ sec_list }}</li>
+		</ul>
+    	<!-- End Breadrumbs -->
+    <div id="content">
+    {% if obj_list %}
+        {% for article in obj_list %}
+        {% include "./include/index_article.html" %}
+        {% endfor %}
+    {% elif not html%}
+        <p>暂时还没有此类文章！</p>
+    {% endif %}
+
+	    </div>
+    <!-- 右侧导航 -->
+<!-- Sidebar -->
+
+    	<div id="sidebar">
+    {% include "./include/aboutme.html" %}
+     {% include "./include/hotacticle.html" %}
+    {% include "./include/category_list.html" %}
+
+    {% include "./include/tags_cloud.html" %}
+                {% include "./include/date_article.html" %}
+                {% include "./include/new_comment.html" %}
+    {% include "./include/links.html" %}
+
+
+
+    	</div>
+    	<!-- End Sidebar -->
+
+{% endblock %}

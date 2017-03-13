@@ -1,0 +1,217 @@
+{% extends './base.html' %}
+
+{% block main %}
+<!-- Breadrumbs -->
+<ul id="breadCrumbs">
+  <li class="homeButton"><a href="#"></a></li>
+  <li>
+    <p>&raquo;</p>
+  </li>
+  <li><a href="#">博文</a></li>
+  <li>
+    <p>&raquo;</p>
+  </li>
+  <li>{{ article_list.title }}</li>
+</ul>
+<!-- End Breadrumbs -->
+<div id="content">
+    {% if article_list %}
+          <div class="newsItem">
+
+          <h1>{{ article_list.title }}</h1>
+          <!-- News meta data -->
+          <div class="meta"> <span class="metaPostDate">{{ article_list.create_time|date:"Y-m-d"  }}</span> <span class="metaAuthor"><a href="#">{{ article_list.author }}</a></span> <span class="metaTags"> {% for tag in article_list.tags.all %} <a href="{% url 'tag-view' tag.name%}">{{ tag.name }}</a>,
+            {% endfor %} </span> <span class="metaComments"><a href="#">{{ article_list.comment_set.all.count }}</a> 评论</span>
+            <div class="clearfix"></div>
+          </div>
+          <!-- End News meta data -->
+
+          {% if article_list.img %} <img src="../../media/{{ article_list.img }}" alt="News item image" /> {% endif %}
+          <p style="font-size: 15px">{{ article_list.content|linebreaks }}</p>
+          <!-- Author Bio -->
+          <h3>About the author</h3>
+          <div class="authorBio"> <img src="{{ article_list.author.tximg }}" alt="John Doe" title="John Doe" />
+            <div class="bioInner">
+              <h4>{{ article_list.author }}</h4>
+              {% if article_list.author.userinfo %}
+              <p>{{ article_list.author.userinfo }}</p>
+              {% else %}
+              <p>这家伙很懒，什么都没说！</p>
+              {% endif %} </div>
+            <div class="clearfix"></div>
+          </div>
+          <!-- End Author Bio -->
+          <!-- Comments -->
+          <div id="comments">
+            <!-- Comments header -->
+            <div class="commentsHeader">
+              <h4>评论</h4>
+              <a href="#">Leave a comment</a>
+              <div class="clearfix"></div>
+            </div>
+            <!-- End Comments header -->
+            <!-- Comment -->
+            <ul >
+            {% for comment in comment_list %}
+            <div class="comment" >
+              <div class="commentInner"> <img src="../../static/tx/guest.png" width="50" height="50" alt="John Doe" title="John Doe" class="authorPhoto" />
+                <!-- Comment content -->
+                <div class="commentContent">
+                  <p >{{ comment.username }}</p>
+                  <p class="commentDate">{{ comment.create_time|date:"Y-m-d H:i:s" }}</p>
+                  <p>{{ comment.content }}</p>
+                </div>
+               <a href="#anchor-quote" onclick="return CommentQuote('{{ comment.username }}',{{ comment.id }})" class="replyBtn" title="回复" ></a>
+                <!-- End Comment Content -->
+                <div class="clearfix"></div>
+              </div>
+              {% for children in comment.children_comment %}
+              <!-- Comment -->
+              <div class="comment">
+                <div class="commentInner"> <img src="../../static/tx/guest.png"width="50" height="50" alt="John Doe" title="John Doe" class="authorPhoto" />
+                  <!-- Comment content -->
+                  <div class="commentContent">
+                    <h5>{{ children.username }}</h5>
+                    <p class="commentDate">{{ children.create_time|date:"Y-m-d H:i:s" }}</p>
+                    <p>{{ children.content }}</p>
+                  </div>
+                  <a href="#anchor-quote" onclick="return CommentQuote('{{ children.username }}',{{ children.id }})" class="replyBtn" title="回复" ></a>
+                  <!-- End Comment Content -->
+                  <div class="clearfix"></div>
+                </div>
+                {% for child2 in children.children_comment %}
+                <div class="comment">
+                  <div class="commentInner"> <img src="../../static/tx/guest.png"width="50" height="50" alt="John Doe" title="John Doe" class="authorPhoto" />
+                    <!-- Comment content -->
+                    <div class="commentContent">
+                      <h5>{{ child2.username }}</h5>
+                      <p class="commentDate">{{ child2.create_time|date:"Y-m-d H:i:s" }}</p>
+                      <p>{{ child2.content }}</p>
+                    </div>
+
+                    <!-- End Comment Content -->
+                    <div class="clearfix"></div>
+                  </div>
+                </div>
+                {% endfor %} </div>
+              <!-- End Comment -->
+              {% endfor %} </div>
+            <!-- End Comment -->
+
+            {% endfor %}
+            </ul>
+            <div id="anchor-quote">
+            <!-- Comment Form -->
+            <form id="commentForm" method="post" action="">
+                {% csrf_token %}
+              <h4>快来写下点什么吧！</h4>
+              <div class="formLeft">
+                <p>
+                  <label for="inputName">昵称: <span class="required">*</span></label>
+                  <input type="text" name="inputName" id="inputName" value="" />
+                </p>
+                <p>
+                  <label for="inputEmail">Email: </label>
+                  <input type="email" name="inputEmail" id="inputEmail" value="" />
+                </p>
+                <p>
+                  <label for="inputWebsite">个人网站:</label>
+                  <input type="url" name="inputWebsite" id="inputWebsite" value="" />
+                </p>
+              </div>
+              <div class="formRight">
+                <p>
+                  <label for="inputComment" id="inputcommentlab">Comment: <span class="required">*</span></label>
+                    <textarea style="display: none" name="disid" id="disid" ></textarea>
+                  <textarea id="inputComment" name="inputComment" placeholder="写点什么吧！"></textarea>
+                </p>
+
+                <input type="submit"  name="" class="right" value="提交 评论" />
+              </div>
+              <div class="clearfix"></div>
+            </form>
+            <!-- End Comment Form -->
+</div>
+          </div>
+          <!-- End Comments -->
+
+        <!-- End News item -->
+          </div>
+    {% endif %}
+</div>
+
+<script language="javascript" type="text/javascript">
+    function CommentQuote(user_name, commend_id){
+        inputComment = document.getElementById('inputcommentlab');
+        input=document.getElementById('inputComment');
+        disid=document.getElementById('disid');
+        disid.textContent=commend_id;
+        inputComment.textContent = "@"+user_name+":";
+        inputComment.style.color="red";
+        input.focus();
+        inputComment.setSelectionRange(comment.value.length, comment.value.length);
+    };
+
+   $('#commentForm').submit(function() {
+       var name = $("#inputName").val();
+            if(name == ""){
+            alert("昵称不可为空");
+            return false;
+            }
+    var content = $("#inputComment").val();
+        if(content == ""){
+            alert("评论不可为空");
+            return false;
+        }
+        $.ajax({
+            type:"POST",
+            url:"/comment/{{ article_list.pk }}/",
+            data:{"comment":$("#inputComment").val(),"inputName":$("#inputName").val(),"inputEmail":$("#inputEmail").val(),"inputWebsite":$("#inputWebsite").val(),"disid":$("#disid").val()},
+            beforeSend:function(xhr){
+                xhr.setRequestHeader("X-CSRFToken", $.cookie('csrftoken'));
+            },
+            success:function(data,textStatus){
+                $("#inputComment").val("");
+                location.replace("/article/{{ article_list.pk }}/");
+                document.getElementById("inputComment").focus();
+
+            },
+            error:function(XMLHttpRequest, textStatus, errorThrown){
+                alert(XMLHttpRequest.responseText);
+
+            }
+
+        });
+        return false;
+    });
+   function PostComment() {
+       var name = document.getElementById("inputName");
+            if(name == ""){
+            alert("昵称不可为空");
+            return false;
+            }
+    var content = document.getElementById("inputComment");
+        if(content == ""){
+            alert("评论不可为空");
+            return false;
+        }
+}
+
+
+</script>
+
+<!-- 右侧导航 -->
+<!-- Sidebar -->
+
+<div id="sidebar"> {% include "./include/aboutme.html" %}
+  {% include "./include/hotacticle.html" %}
+  {% include "./include/category_list.html" %}
+
+  {% include "./include/tags_cloud.html" %}
+  {% include "./include/date_article.html" %}
+  {% include "./include/new_comment.html" %}
+  {% include "./include/links.html" %}
+</div>
+<!-- End Sidebar -->
+
+{% endblock %}

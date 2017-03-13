@@ -1,0 +1,40 @@
+{%  url "article-view" article.id as article_url %}
+
+	    	<!-- News item -->
+	    	<div class="newsItem">
+	    		<!-- News title -->
+	    		<div class="newsItemTitle">
+		    		<p class="postDate"><span class="postDateD">{{ article.create_time.day }}</span><span class="postDateM">{{ article.create_time|date:'F' }}</span><span class="postDateY">{{ article.create_time.year }}</span></p>
+		    		<h2><a href="{{ article_url }}">{{ article.title }}</a></h2>
+		    		<div class="clearfix"></div>
+	    		</div>
+	    		<!-- End News Title -->
+	    		<!-- News meta data -->
+	    		<div class="meta">
+	    			<span class="metaAuthor"><a href="/aboutme/">{{ article.author }}</a></span>
+                    <span class="metaTags">
+                        <a href="/category/{{ article.category.pk}}/"> {{ article.category }}</a>
+
+                    </span>
+
+	    			<span class="metaTags">
+                        {% for tag in article.tags.all %}
+                        <a href="{% url 'tag-view' tag.name%}">{{ tag.name }}</a>,
+                        {% endfor %}
+                    </span>
+
+	    			<span class="metaComments"><a href="{{ article_url }}">{{ article.comment_set.all.count }}</a> 评论</span>
+	    			<div class="clearfix"></div>
+	    		</div>
+	    		<!-- End News meta data -->
+            {% if article.img %}
+
+	    		<a href="{{ article_url }}"><img src="/media/{{ article.img }}" alt="News item image" /></a>
+            {% endif %}
+                <p>{{ article.content|slice:"300"|linebreaks }}... ...</p>
+
+	    		<a href="article.html">查看全文 &raquo;</a>
+	    	</div>
+	    	<!-- End News item -->
+
+

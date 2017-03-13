@@ -1,0 +1,90 @@
+<!doctype html>
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
+<!--[if IE 9]>    <html class="no-js ie9 oldie" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+    <title>{{ website_title }}</title>
+    <meta name="blog" content="eric, blog, Site, Template, CSS, HTML, JavaScript, HTML5, CSS3, jQuery, Modernizr, jQuery UI">
+    <meta name="python" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <!-- CSS: implied media=all -->
+
+    {% block css %}
+  <link href='/static/css/fontcss.css' rel='stylesheet' type='text/css'>
+    <link href='/static/css/bootstrap.min.css' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="/static/css/style.css">
+    {% endblock %}
+  <!-- end CSS-->
+  <!-- All JavaScript at the bottom, except for Modernizr / Respond.
+       Modernizr enables HTML5 elements & feature detects; Respond is a polyfill for min/max-width CSS3 Media Queries
+       For optimal performance, use a custom Modernizr build: www.modernizr.com/download/ -->
+  <script src="/static/js/modernizr-2.5.3.min.js"></script>
+</head>
+<body style=" position:absolute;width:100%;min-height:100%;padding-bottom:60px;">
+  <!-- Page Container -->
+  <div id="container" style="min-height:100%; height: auto !important; height: 100%;position: relative;">
+    <!-- Header -->
+    <header>
+    {% include "nav.html" %}
+   	<div id="headerBottom">
+   		<div class="headerInner">
+	   		<!-- Social Buttons  -->
+	   		<div class="socialButtons">
+
+	   			<a href="http://twitter.com" target="_blank" class="tw">t</a>
+	   			<a href="http://facebook.com" target="_blank" class="fb">f</a>
+	   			<a href="http://linkedin" target="_blank" class="li">l</a>
+	   			<a href="http://plus.google.com" target="_blank" class="gp">g</a>
+	   			<div class="clearfix"></div>
+	   		</div>
+	   		<!-- End Social Buttons  -->
+	   		<!-- Contact Info  -->
+	   		<div id="contactInfo">
+	   			<p><strong>M</strong> <a href="mailto:">z_j_boy@163.com</a></p>
+	   			<p><strong>T</strong> {{ website_title }}</p>
+	   			<div class="clearfix"></div>
+	   		</div>
+	   		<!-- End Contact Info  -->
+	   		<!-- Search  -->
+	   		<div id="searchBar">
+		   		<form action="/search/" method="GET">
+			   		<input class="inputBar" type="text" name="word" placeholder="Search..." />
+			   		<input class="submitBtn" type="submit" value="L" />
+		   		</form>
+	   		</div>
+	   		<!-- End Search  -->
+	   		<div class="clearfix"></div>
+	   	</div>
+   	</div>
+    </header>
+    <!--! end of Header -->
+    <!-- Main Content -->
+    <div id="main" role="main" >
+    	<!-- Page Header -->
+    	<div id="pageHeader">
+    		<h2>Django blog</h2>
+    		<p>python2.7 django1.8个人简易博客系统</p>
+    		<div class="clearfix"></div>
+    	</div>
+    	<!-- End Page Header -->
+
+    	<!-- Main content -->
+        {% block main %}{% endblock %}
+	    <!-- End Main content -->
+
+    </div>
+    <div class="clearfix"></div>
+    <!--! end of Main Content -->
+
+  </div> <!--! end of #container -->
+   <!--! Settings widget | PREVIEW PURPOSES ONLY -->
+{% include "./footer.html" %}
+   <!--! End Settings widget -->
+  <!-- JavaScript at the bottom for fast page loading -->
+  <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if offline -->
+
+  <!-- end scripts-->
+</body>
+</html>

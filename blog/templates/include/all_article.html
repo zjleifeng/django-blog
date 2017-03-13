@@ -1,0 +1,122 @@
+{% extends './base.html' %}
+{% block main %}
+    <!-- Breadrumbs -->
+		<ul id="breadCrumbs">
+			<li class="homeButton"><a href="#"></a></li>
+			<li><p>&raquo;</p></li>
+			 <li>{{ first_list }}</li><li><p>&raquo;</p></li><li>{{ sec_list }}</li>
+		</ul>
+    	<!-- End Breadrumbs -->
+    <div id="portfolioFilter">
+	    	 <div id="tool" class=" underline1 clearfix">
+                            <div class="tags">
+                                <div class="tag-list" style="float:left">
+                                    <label class="active">
+                                        全部
+                                        <input type="radio" name="category" value="all" style="display:none"></input>
+                                    </label>
+                                        {% for category in category_list%}
+                                    <label>
+                                        {{category.name}}
+                                        <input type="radio" name="category" value="{{category.name}}" style="display:none"></input>
+                                    </label>
+                                        {% endfor%}
+                                </div>
+                            </div>
+            </div>
+	    	<div class="clearfix"></div>
+    	</div>
+    	<!-- Portfolio Items -->
+    	<div id="portfolioItems" class="single">
+            {% if obj_list %}
+                {% for obj in obj_list %}
+                    {% include "include/post_article.html" %}
+                {% endfor %}
+                {% else %}
+                <p>暂时没有此类文章</p>
+        {% endif %}
+
+        </div>
+     <div id="loading" style="height:100px;line-height:100px;text-align:center;display:none;">
+                <img src="/static/img/footer/loading.gif" alt="">
+            </div>
+                <button id="all-post-more" type="button" class="btn btn-eric" value="all" style="width:100%">
+                            加载更多
+                    <span class="glyphicon glyphicon-menu-down"></span>
+                </button>
+
+<script language="javascript" type="text/javascript">
+
+    var start = 0;
+    var end = parseInt({{PAGE_NUM}});
+
+    $("input[name='category']").click(function(){
+        start = 0;
+        end = parseInt({{PAGE_NUM}});
+        $("input[name='category']").parent().removeClass("active");
+        $("#all-post-more")[0].style.display = "none";
+        $("#loading")[0].style.display = "block";
+
+        $("#portfolioItems").empty();
+        $(this).parent().addClass("active");
+        $("#all-post-more").val($(this).val());
+        $.ajax({
+            type:"POST",
+            url:"/all/",
+            data:{"val":$(this).attr("value"),"start":start,"end":end},
+            beforeSend:function(xhr){
+                xhr.setRequestHeader("X-CSRFToken", $.cookie('csrftoken'));
+            },
+            success:function(data,textStatus){
+                $("#loading")[0].style.display = "none";
+                $('#portfolioItems').append(data["html"]);
+                if(data["isend"])
+                {
+                    $("#all-post-more")[0].style.display = "none";
+                }else{
+                    $("#all-post-more")[0].style.display = "block";
+                }
+            },
+            error:function(XMLHttpRequest, textStatus, errorThrown){
+                alert(XMLHttpRequest.responseText);
+
+            }
+        });
+    });
+
+
+
+
+
+    $("#all-post-more").click(function(){
+        start = end;
+        end += 5;
+        $("#loading")[0].style.display = "block";
+        $.ajax({
+            type:"POST",
+            url:"/all/",
+            data:{"val":$(this).attr("value"),"sort":$("input[name='sort']:checked").val(),"start":start,"end":end},
+            beforeSend:function(xhr){
+                xhr.setRequestHeader("X-CSRFToken", $.cookie('csrftoken'));
+            },
+            success:function(data,textStatus){
+                $("#loading")[0].style.display = "none";
+                $("#all-post-more")[0].style.display = "none";
+                $('#portfolioItems').append(data["html"]);
+
+                if(data["isend"])
+                {
+                    $("#all-post-more")[0].style.display = "none";
+                }else{
+                    $("#all-post-more")[0].style.display = "block";
+                }
+
+            },
+            error:function(XMLHttpRequest, textStatus, errorThrown){
+                alert(XMLHttpRequest.responseText);
+            }
+        });
+    });
+
+</script>
+{% endblock %}

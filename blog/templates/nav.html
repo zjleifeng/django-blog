@@ -1,0 +1,249 @@
+
+{% block css %}
+
+<link rel="stylesheet" type="text/css" href="/static/css/login/style.css"/>
+<script src="/static/js/login/jquery-1.7.2.min.js" type="text/javascript"></script>
+<link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<script src="/static/js/login/main.js"></script>
+        <script src="/static/jquery/jquery.cookie.js"></script>
+    <script src="/static/jquery/jquery.form.js"></script>
+    <script src="/static/jquery/jquery.Jcrop.min.js"></script>
+        <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+  <script src="/static/js/script.js"></script>
+{% endblock %}
+<!-- Header Top Area -->
+    <div id="headerTop">
+    	<div class="headerInner">
+    	  <!-- Company Logo -->
+    		<a href="/">
+    			<img src="/static/img/logo.png" alt="Company Logo" class="left" />
+    		</a>
+    		<!-- Navigation -->
+    		<ul>
+
+    		  <li><a href="/" id="index" class="{{ indexclass }}">首页</a></li>
+    		  <li><a href="{% url "aboutme-view" %}" id="aboutme" class="{{aboutclass}}">关于我</a>
+
+    		  </li>
+    		  <li><a href="{% url "all-view" %}" id="allarticle" class="{{ allclass }}">文章</a>
+
+    		  </li>
+    		  <li><a href="/" id="photo">相册</a>
+
+    		  </li>
+    		  <li><a href="/" id="message">留言</a>
+
+    		  </li>
+    		  <li><a href="/" id="news">新闻</a></li>
+    		  <li><a href="/" id="other">其他</a></li>
+
+    		</ul>
+
+
+            <ul>
+                {% if not user.is_authenticated %}
+                <li><nav class="main_nav">
+                    <a href="#0"  id="nav-login" data-toggle="modal" data-target="#login-modal"  >
+                    登陆/注册
+                    </a></nav>
+                </li>
+
+                {%else%}
+
+                <li class="dropdown">
+                <a onMouseOver="this.style.color='#FFFF00'" title="{{user.username}}" onMouseOut="this.style.color='#FFFFFF'" href="javascript:;" style="width: 150px; padding:10px; font-size: 11px;border-right: 0px;color: #ffffff;" data-toggle="dropdown">
+                        <img src="{{user.tximg}}" width=30 height=30 alt="" width="40">
+
+                        &nbsp;
+                        消息<span style="color: red" >:({{notification_count}})</span>
+                </a>
+                <ul class="dropdown-menu navbar-right" >
+                    <li><a class="d_out d_over" href="{{changetx_url}}" style="color: #5f3b11;border-right: 0px;padding:5px" >
+                        <span class="glyphicon glyphicon-user"></span>
+                        更改头像</a></li>
+                    <li><a  href="{{changepassword_url}}"style="color: #5f3b11;border-right: 0px;padding:5px" >
+                        <span class="glyphicon glyphicon-lock"></span>
+                        更改密码</a></li>
+                    <li><a href="{{notification_url}}"style="color: #5f3b11;border-right: 0px;padding:5px" >
+                        <span class="glyphicon glyphicon-envelope"></span>
+                        消息
+                        <span class="badge" style="background-color: #D94600;">{{notification_count}}</span>
+                        </a></li>
+                    <li><a id="logout" href="javascript:;"style="color: #5f3b11;border-right: 0px;padding:5px" >
+                        <span class="glyphicon glyphicon-log-out"></span>
+                        退出登录</a></li>
+                </ul>
+
+                </li>
+                {% endif %}
+            </ul>
+    		<!-- End of Navigation -->
+    		<div class="clearfix"></div>
+
+
+    	</div>
+   	</div>
+   	<!-- Header Bottom Area -->
+
+
+<div class="main" id="login-modal" role="dialog">
+	<div class="cd-user-modal">
+		<div class="cd-user-modal-container">
+			<ul class="cd-switcher">
+				<li><a href="#0">用户登录</a></li>
+				<li><a href="#0">注册新用户</a></li>
+			</ul>
+
+			<div id="login-modal" style="text-align: center"> <!-- 登录表单 -->
+				<form id="cd-login" class="cd-form" method="post" role="form">
+                    {% csrf_token %}
+					<p class="fieldset">
+						<label class="image-replace cd-username">用户名</label>
+						<input class="full-width has-padding has-border" id="signin-username" type="text" placeholder="输入用户名">
+					</p>
+
+					<p class="fieldset">
+						<label class="image-replace cd-password">密码</label>
+						<input class="full-width has-padding has-border" id="signin-password" type="password"  placeholder="输入密码">
+					</p>
+
+
+					<p class="fieldset">
+                        <input id="login-button" class="full-width2" type="submit" value="登录"></input>
+					</p>
+                     <div id="forgetpassword"><a href="{% url "forgetpassword-view" %}">忘记密码?&nbsp&nbsp</a></div>
+				</form>
+			</div>
+
+			<div id="cd-signup" style="text-align: center"> <!-- 注册表单 -->
+				<form id="cd-register" class="cd-form" method="post" role="form">
+                    {% csrf_token %}
+					<p class="fieldset">
+						<label class="image-replace cd-username" for="signup-username">用户名</label>
+						<input class="full-width has-padding has-border" id="signup-username" type="text" placeholder="输入用户名">
+					</p>
+
+					<p class="fieldset">
+						<label class="image-replace cd-email" for="signup-email">邮箱</label>
+						<input class="full-width has-padding has-border" id="signup-email" type="email" placeholder="输入mail">
+					</p>
+
+					<p class="fieldset">
+						<label class="image-replace cd-password" for="signup-password1">密码</label>
+						<input class="full-width has-padding has-border" id="signup-password1" type="password"  placeholder="输入密码">
+					</p>
+                    <p class="fieldset">
+						<label class="image-replace cd-password" for="signup-password2">确认密码</label>
+						<input class="full-width has-padding has-border" id="signup-password2" type="password"  placeholder="再次输入密码">
+					</p>
+<!--
+					<p class="fieldset">
+						<input type="checkbox" id="accept-terms">
+						<label for="accept-terms">我已阅读并同意 <a href="#0">用户协议</a></label>
+					</p>
+-->
+					<p class="fieldset">
+						<input class="full-width2" type="submit" value="注册新用户">
+					</p>
+				</form>
+			</div>
+
+			<a href="#0" class="cd-close-form">关闭</a>
+		</div>
+	</div>
+</div>
+
+
+
+
+<script language="javascript" type="text/javascript">
+    $('#cd-login').submit(function(){
+        $.ajax({
+            type:"POST",
+            url:"/usercontrol/login",
+            data:{"username":$("#signin-username").val(),"password":$("#signin-password").val()},
+            beforeSend:function(xhr){
+                xhr.setRequestHeader("X-CSRFToken", $.cookie('csrftoken'));
+            },
+            success:function(data,textStatus){
+                var errors = data["errors"];
+                if(errors.length==0){
+                    location.reload();
+                }
+                else{
+                    //alert(errors);
+                    var html = "<div class=\"alert alert-danger\">"
+                    for (var key in errors){
+                        html += errors[key]+"<br/>";
+                    }
+                    html += "</div>";
+                    $("#login-modal .cd-switcher").after(html);
+                }
+            },
+            error:function(XMLHttpRequest, textStatus, errorThrown){
+                alert(XMLHttpRequest.responseText);
+            }
+
+        });
+        return false;
+    });
+
+    $("#login-button").click(function(){
+        $("#login-modal .alert").remove();
+    });
+
+
+    $('#cd-register').submit(function(){
+        $.ajax({
+            type:"POST",
+            url:"/usercontrol/register",
+            data:{"username":$("#signup-username").val(),"email":$("#signup-email").val(),
+                  "password1":$("#signup-password1").val(),"password2":$("#signup-password2").val(),},
+            dataType:'json',
+            beforeSend:function(xhr){
+                xhr.setRequestHeader("X-CSRFToken", $.cookie('csrftoken'));
+            },
+            success:function(data,textStatus){
+                var errors = data["errors"];
+                if(errors.length==0){
+                    location.reload();
+                }
+                else{
+                    //alert(errors);
+                    var html = "<div class=\"alert alert-danger\">"
+                    for (var key in errors){
+                        html += errors[key]+"<br/>";
+                    }
+                    html += "</div>";
+                    $("#login-modal .cd-switcher").after(html);
+                }
+
+            },
+            error:function(XMLHttpRequest, textStatus, errorThrown){
+                alert(XMLHttpRequest.responseText);
+            }
+        });
+        return false;
+    });
+
+    $("#register-button").click(function(){
+        $("#login-modal .alert").remove();
+    });
+
+    $("#logout").click(function(){
+        $.ajax({
+            type:"POST",
+            url:"/usercontrol/logout",
+            beforeSend:function(xhr){
+                xhr.setRequestHeader("X-CSRFToken", $.cookie('csrftoken'));
+            },
+            success:function(data,textStatus){
+                location.replace("/");
+            },
+            error:function(XMLHttpRequest, textStatus, errorThrown){
+                alert(XMLHttpRequest.responseText);
+            }
+        });
+        return false;
+    });
+</script>

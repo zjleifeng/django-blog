@@ -1,0 +1,20 @@
+<!-- Portfolio Item -->
+	    	<div class="portfolioItem" data-id="id-1" data-type="packaging branding development">
+
+	    		<div>
+		    		<h5>{{ obj.title }}</h5>
+                    {% if obj.img %}
+
+	    		<a><img src="../../media/{{ obj.img }}" alt="News item image" /></a>
+            {% endif %}
+		    		<div>{{ obj.content }}</div>
+
+		    		<div class="tags">
+		    			<a href="#">Packaging</a>
+		    			<a href="#">Branding</a>
+		    			<a href="#">Development</a>
+		    		</div>
+	    		</div>
+	    		<div class="clearfix"></div>
+	    	</div>
+	    	<!-- End Portfolio Item -->
