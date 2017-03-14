@@ -251,3 +251,46 @@ class Aboutme(models.Model):
     def __unicode__(self):
         return self.nickname
     __str__=__unicode__
+
+
+class Album(models.Model):
+    title=models.CharField(max_length=30,verbose_name=u'相册名称')
+    desc=models.TextField(max_length=200,verbose_name=u'相册介绍')
+    #tags = models.ManyToManyField(Tag, verbose_name=u'标签')
+    img=models.CharField(max_length=300,default='/static/img/photo/default.jpg',verbose_name=u'缩略图')
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=u'作者')
+    chick_count = models.IntegerField(default=0, verbose_name=u'点击次数')
+    zan_times = models.IntegerField(default=0, verbose_name=u'被赞次数')
+    is_top = models.BooleanField(default=False, verbose_name=u'是否置顶')
+    rank = models.IntegerField(default=0, verbose_name=u'排序')
+    status = models.IntegerField(default=0, choices=STATUS.items(), verbose_name=u'状态')
+    create_time = models.DateTimeField(auto_now_add=True, verbose_name=u'创建时间')
+
+    class Meta:
+        verbose_name_plural=u'相册管理'
+        ordering=['rank']
+
+    def __unicode__(self):
+        return self.title
+    __str__=__unicode__
+
+
+class Photo(models.Model):
+    album=models.ForeignKey(Album,blank=True,null=True,on_delete=models.SET_NULL,verbose_name=u'所属相册')
+    title=models.CharField(max_length=30,blank=True,null=True,verbose_name=u'照片标题')
+    desc=models.TextField(max_length=200,blank=True,null=True,verbose_name=u'照片简介')
+    img=models.CharField(max_length=300,default='/static/photo/images/default.jpg',verbose_name=u'照片地址')
+    chick_count = models.IntegerField(default=0, verbose_name=u'点击次数')
+    zan_times = models.IntegerField(default=0, verbose_name=u'被赞次数')
+    is_top = models.BooleanField(default=False, verbose_name=u'是否置顶')
+    rank = models.IntegerField(default=0, verbose_name=u'排序')
+    status = models.IntegerField(default=0, choices=STATUS.items(), verbose_name=u'状态')
+    create_time = models.DateTimeField(auto_now_add=True, verbose_name=u'创建时间')
+
+    class Meta:
+        verbose_name_plural=u'照片管理'
+        ordering=['rank']
+
+    def __unicode__(self):
+        return self.title
+    __str__=__unicode__

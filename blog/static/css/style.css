@@ -1470,6 +1470,10 @@ blockquote.pullQuote p {
 #main .meta .metaTags {
 	margin: 0 40px 0 0;
 }
+#main .meta .metalist{
+		float: left;
+	min-width: 56px;
+}
 #main .meta .metaComments {
 	width: 123px;
 }
@@ -1522,6 +1526,74 @@ blockquote.pullQuote p {
 #main .meta .metaComments:hover:before {
 	color: #adadad;
 }
+#main .meta .metatag:before {
+    font-family: 'WebSymbolsRegular';
+	content: ",";
+	margin: 0 10px 0 0;
+	font-size: 12px;
+	color: #adadad;
+}
+.ie7 #main .meta .metatag {
+	before: ",";
+}
+.ie7 #main .meta .metatag .before {
+    font-family: 'WebSymbolsRegular';
+    background: none;
+	margin: 0 10px 0 0;
+	position: relative;
+	top: -1px;
+	font-size: 12px;
+	color: #adadad;
+}
+#main .meta .metatag:hover:before {
+	color: #adadad;
+}
+#main .meta .metalike:before {
+    font-family: 'WebSymbolsRegular';
+	content: "N";
+	margin: 0 10px 0 0;
+	font-size: 12px;
+	color: #adadad;
+}
+.ie7 #main .meta .metalike {
+	before: "N";
+}
+.ie7 #main .meta .metalike .before {
+    font-family: 'WebSymbolsRegular';
+    background: none;
+	margin: 0 10px 0 0;
+	position: relative;
+	top: -1px;
+	font-size: 12px;
+	color: #adadad;
+}
+#main .meta .metalike:hover:before {
+	color: #adadad;
+}
+#main .meta .metalist:before {
+    font-family: 'WebSymbolsRegular';
+	content: "I";
+	margin: 0 10px 0 0;
+	font-size: 12px;
+	color: #adadad;
+}
+.ie7 #main .meta .metalist {
+	before: "I";
+
+}
+.ie7 #main .meta .metalist .before {
+    font-family: 'WebSymbolsRegular';
+    background: none;
+	margin: 0 10px 0 0;
+	position: relative;
+	top: -1px;
+	font-size: 12px;
+	color: #adadad;
+}
+#main .meta .metalist:hover:before {
+	color: #adadad;
+}
+
 #main .meta .metaTags:before, #sidebar .categoriesList li a:before {
     font-family: 'WebSymbolsRegular';
 	content: "F";

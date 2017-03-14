@@ -1,4 +1,6 @@
 
+{% url 'msgbook-view' as msgbook_url %}
+{% url 'photo-view' as photo_url %}
 {% block css %}
 
 <link rel="stylesheet" type="text/css" href="/static/css/login/style.css"/>
@@ -28,10 +30,10 @@
     		  <li><a href="{% url "all-view" %}" id="allarticle" class="{{ allclass }}">文章</a>
 
     		  </li>
-    		  <li><a href="/" id="photo">相册</a>
+    		  <li><a href="{{ photo_url }}" id="photo" class="{{ albumclass }}">相册</a>
 
     		  </li>
-    		  <li><a href="/" id="message">留言</a>
+    		  <li><a href="{{ msgbook_url }}" id="message" class="{{ msgclass }}">留言</a>
 
     		  </li>
     		  <li><a href="/" id="news">新闻</a></li>

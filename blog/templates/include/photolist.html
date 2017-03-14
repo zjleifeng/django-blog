@@ -1,0 +1,152 @@
+<html><!DOCTYPE HTML>
+
+<html>
+	<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	  <title>{{ website_title }}</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Free HTML5 Website Template" />
+	<meta name="keywords" content="free website templates, free html5, free template, free bootstrap, free website template, html5, css3, mobile first, responsive" />
+
+
+  	<!-- Facebook and Twitter integration -->
+	<meta property="og:title" content=""/>
+	<meta property="og:image" content=""/>
+	<meta property="og:url" content=""/>
+	<meta property="og:site_name" content=""/>
+	<meta property="og:description" content=""/>
+	<meta name="twitter:title" content="" />
+	<meta name="twitter:image" content="" />
+	<meta name="twitter:url" content="" />
+	<meta name="twitter:card" content="" />
+
+	<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+	<link href="../../../fonts.googleapis.com/css-family=Varela+Round" tppabs="https://fonts.googleapis.com/css?family=Varela+Round" rel='stylesheet' type='text/css'>
+	<!-- <link href="https://fonts.googleapis.com/css?family=Bungee+Shade" rel="stylesheet"> -->
+
+	<!-- Animate.css -->
+	<link rel="stylesheet" href="/static/photo/css/animate.css">
+	<!-- Icomoon Icon Fonts-->
+	<link rel="stylesheet" href="/static/photo/css/icomoon.css">
+	<!-- Bootstrap  -->
+	<link rel="stylesheet" href="/static/photo/css/bootstrap.css">
+	<!-- Theme style  -->
+	<link rel="stylesheet" href="/static/photo/css/style.css">
+
+	<!-- Magnific Popup -->
+	<link rel="stylesheet" href="/static/photo/css/magnific-popup.css">
+
+	<!-- Modernizr JS -->
+	<script src="/static/photo/js/modernizr-2.6.2.min.js"></script>
+	<!-- FOR IE9 below -->
+	<!--[if lt IE 9]>
+	<script src="/static/photo/js/respond.min.js"></script>
+	<![endif]-->
+
+	</head>
+<body>
+<div class="adcenter"><script src="js/ggad2_728x90.js" ></script></div>
+
+
+	<div id="fh5co-page">
+
+	<div class="aside-toggle btn-circle">
+		<a href="#"><span></span><em>About</em></a>
+	</div>
+	<div class="back-to-home btn-circle">
+		<a href="/"><span></span><em>Back</em></a>
+	</div>
+
+	<div id="fh5co-aside">
+		<div class="image-bg"></div>
+		<div class="overlay"></div>
+		<div class="row">
+			<div class="col-md-12">
+				<div id="fh5co-aside-inner">
+					<div class="row" id="fh5co-bio">
+						<div class="col-md-12">
+							<h2>About Me</h2>
+						</div>
+						<div class="col-md-6">
+							<p></p>
+						</div>
+						<div class="col-md-6">
+							<p></p>
+						</div>
+                        <!--友情链接
+						<div class="col-md-12 fh5co-social">
+							<a href="#"><i class="icon-envelope"></i></a>
+							<a href="#"><i class="icon-twitter"></i></a>
+							<a href="#"><i class="icon-linkedin"></i></a>
+							<a href="#"><i class="icon-instagram"></i></a>
+							<a href="#"><i class="icon-google-plus"></i></a>
+						</div>
+						-->
+						<div class="col-md-12" style="margin-top: 40px;">
+							<p>&copy; © Copyright 2017 eric. All Rights Reserved. Change this after purchase. Designed by <a href="{% url "aboutme-view" %}" target="_blank">雷锋</a></p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container-fluid" id="fh5co-image-grid">
+
+
+		<div class="grid">
+		  <div class="grid-sizer"></div>
+
+            {% if obj_list %}
+                {% for obj in obj_list %}
+		  <div class="grid-item item animate-box" data-animate-effect="fadeIn">
+		  		<a href="{{ obj.img }}" class="image-popup" title="{{ obj.desc }}">
+					<div class="img-wrap">
+						<img src="{{ obj.img }}" alt="" class="img-responsive">
+					</div>
+					<div class="text-wrap">
+						<div class="text-inner popup">
+							<div>
+								<h2>{{ obj.title }}</h2>
+							</div>
+						</div>
+					</div>
+				</a>
+		  </div>
+{% endfor %}
+{% endif %}
+
+		</div>
+
+
+	</div>
+
+	</div>
+
+	<!-- jQuery -->
+	<script src="/static/photo/js/jquery.min.js" ></script>
+	<!-- jQuery Easing -->
+	<script src="/static/photo/js/jquery.easing.1.3.js"></script>
+	<!-- Bootstrap -->
+	<script src="/static/photo/js/bootstrap.min.js"></script>
+	<!-- Waypoints -->
+	<script src="/static/photo/js/jquery.waypoints.min.js"></script>
+
+	<!-- Magnific -->
+	<script src="/static/photo/js/jquery.magnific-popup.min.js"></script>
+	<script src="/static/photo/js/magnific-popup-options.js"></script>
+	<!-- Isotope & imagesLoaded -->
+	<script src="/static/photo/js/isotope.pkgd.min.js"></script>
+	<script src="/static/photo/js/imagesloaded.pkgd.min.js"></script>
+	<!-- GSAP  -->
+	<script src="/static/photo/js/TweenLite.min.js"></script>
+	<script src="/static/photo/js/CSSPlugin.min.js"></script>
+	<script src="/static/photo/js/EasePack.min.js"></script>
+
+	<!-- MAIN JS -->
+	<script src="/static/photo/js/main.js"></script>
+
+	</body>
+</html>
+

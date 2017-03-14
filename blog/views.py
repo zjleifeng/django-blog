@@ -9,7 +9,7 @@
 from django.shortcuts import render
 from django.core.cache import caches
 from myblog import settings
-from blog.models import Article,Comment,Links,Tag,Category,Aboutme
+from blog.models import Article,Comment,Links,Tag,Category,Aboutme,MsgBook,Photo,Album
 from django.views.generic import TemplateView,ListView,DetailView,View
 from django.db.models import Q
 from django.http import HttpResponse,Http404,HttpResponseRedirect
@@ -356,4 +356,88 @@ class AboutMeView(BaseMixin,ListView):
     def get_queryset(self):
         if self.queryset:
             obj_list=self.queryset[0]
+        return obj_list
+
+#留言
+class MsgBookView(BaseMixin,ListView):
+    template_name = 'include/msgbox.html'
+    context_object_name = 'obj_list'
+
+
+
+    def get_queryset(self):
+        obj_list = MsgBook.objects.filter(status=0).order_by('-create_time')[0:settings.PAGE_NUM]
+        return obj_list
+
+
+    def get_context_data(self, **kwargs):
+        try:
+            msgbook=MsgBook.objects.filter(status=0)[0:settings.PAGE_NUM]
+            obj_list=[]
+            for msg in msgbook:
+                for item in msgbook:
+                    if not hasattr(item,'children_msgbook'):
+                        setattr(item,'children_msgbook',[])
+                    if msg.parent==item:
+                        item.children_msgbook.append(msg)
+                        break
+                if msg.parent is None:
+                    obj_list.append(msg)
+            comment_len=len(obj_list)
+            kwargs['msgbook_list'] = obj_list
+            kwargs['msgclass'] = 'current'
+        except Article.DoesNotExist:
+            pass
+
+        return super(MsgBookView, self).get_context_data(**kwargs)
+
+    def post(self,request,*args,**kwargs):
+        user=self.request.user
+        if not user.is_authenticated():
+            userauth=None
+        else:
+            userauth=user
+        msg=self.request.POST.get("msg", "")
+        username=self.request.POST.get("inputName", "")
+        email=self.request.POST.get("inputEmail", "")
+        website=self.request.POST.get("inputWebsite", "")
+        tel=self.request.POST.get("inputTelephone","")
+
+
+        if msg==""or username=="":
+            return HttpResponse('需要填写昵称和留言内容！')
+        MsgBook.objects.create(
+            name=username,content=msg,email=email,siteurl=website,authuser=userauth)
+
+        return HttpResponseRedirect("/")
+
+class PhotoView(BaseMixin,ListView):
+    template_name = 'include/photo.html'
+    context_object_name = 'obj_list'
+
+    def get_context_data(self, **kwargs):
+        kwargs['albumclass'] = "current"
+        kwargs['first_list']="相册"
+        return super(PhotoView, self).get_context_data(**kwargs)
+
+    def get_queryset(self):
+
+        obj_list = Album.objects.filter(status=0).order_by("-rank")
+
+        return obj_list
+
+class PhothListView(BaseMixin,ListView):
+    template_name = 'include/photolist.html'
+    context_object_name = "obj_list"
+
+    def get_context_data(self,**kwargs):
+        kwargs['album_list']=Album.objects.filter(status=0).order_by('-rank')
+        return super(PhothListView,self).get_context_data(**kwargs)
+
+    def get_queryset(self):
+        en_id=self.kwargs.get("pk")
+        ablum=Album.objects.get(id=en_id)
+
+        obj_list=Photo.objects.filter(album=ablum).order_by("-rank")
+
         return obj_list

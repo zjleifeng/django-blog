@@ -1,0 +1,49 @@
+{% extends './base.html' %}
+
+{% block main %}
+<!-- Breadrumbs -->
+<ul id="breadCrumbs">
+  <li class="homeButton"><a href="#"></a></li>
+  <li>
+    <p>&raquo;</p>
+  </li>
+  <li>{{ first_list }}</li>
+    {% if sec_list %}<li><p>&raquo;</p></li><li>{{ sec_list }}</li>{% endif %}
+
+  <li>{{ article_list.title }}</li>
+</ul>
+<!-- End Breadrumbs -->
+
+    	<div class="pageLink">
+    		<h3>个人相册</h3>
+    		<p  class="linkBtn">)</p>
+    	</div>
+    	<!-- End Header with link -->
+    	<!-- One Fourth Column -->
+    	<div class="row">
+        {% if obj_list %}
+            {% for obj in obj_list %}
+                <div class="column oneFourth">
+    			<a href="{% url "photolist-view" obj.id %}" data-rel="prettyPhoto[portfolioGroup]" title="{{ obj.title }}"><img src="{{ obj.img }}" alt="A picture" title="{{ obj.title }}" /></a>
+                    <div class="meta">
+                        <h3>{{ obj.title }}</h3>
+    					<span class="metaAuthor"><a href="{% url 'aboutme-view' %}">{{ obj.author }}</a></span>
+    					<span class="metalist"><a href="#">{{ obj.photo_set.all.count }}</a></span>
+                        <span class="metalike"><a href="#">{{ obj.chick_count }}</a></span>
+    					<div class="clearfix"></div>
+    				</div>
+
+    			<li><p>{{ obj.desc|slice:"100" }}</p></li>
+    			<a style="color: #D94600" href="#">See more &raquo;</a>
+    		</div>
+            {% endfor %}
+            {% endif %}
+
+
+    		<div class="clearfix"></div>
+    	</div>
+    	<!-- End One Fourth Column -->
+
+
+
+{% endblock %}

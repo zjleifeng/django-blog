@@ -8,7 +8,7 @@
 
 
 from django.contrib import admin
-from blog.models import Article,Tag, Category, Comment, Links, Advert,Notification,Aboutme
+from blog.models import Article,Tag, Category, Comment, Links, Advert,Notification,Aboutme,MsgBook,Album,Photo
 
 class TagAdmin(admin.ModelAdmin):
     search_fields = ('name',)
@@ -87,3 +87,6 @@ admin.site.register(Links, LinksAdmin)
 admin.site.register(Advert, AdvertAdmin)
 admin.site.register(Notification, NotificationAdmin)
 admin.site.register(Aboutme)
+admin.site.register(MsgBook)
+admin.site.register(Album)
+admin.site.register(Photo)

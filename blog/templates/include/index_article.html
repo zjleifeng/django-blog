@@ -17,7 +17,7 @@
 
                     </span>
 
-	    			<span class="metaTags">
+	    			<span class="metatag">
                         {% for tag in article.tags.all %}
                         <a href="{% url 'tag-view' tag.name%}">{{ tag.name }}</a>,
                         {% endfor %}
@@ -33,7 +33,7 @@
             {% endif %}
                 <p>{{ article.content|slice:"300"|linebreaks }}... ...</p>
 
-	    		<a href="article.html">查看全文 &raquo;</a>
+	    		<a href="{{ article_url }}">查看全文 &raquo;</a>
 	    	</div>
 	    	<!-- End News item -->
 

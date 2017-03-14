@@ -8,7 +8,7 @@
 
 from django.conf.urls import include, url
 from django.contrib import admin
-from blog.views import IndexView,ArticleView,AllView,PostCommentView,SearchView,CaregoryView,TagsView,DateArticleView,AboutMeView
+from blog.views import IndexView,ArticleView,AllView,PostCommentView,SearchView,CaregoryView,TagsView,DateArticleView,AboutMeView,MsgBookView,PhotoView,PhothListView
 from myblog import settings
 from django.views.generic import TemplateView, DetailView
 
@@ -31,4 +31,7 @@ urlpatterns = [
     url(r'^search/$',SearchView.as_view(),name='search-view'),
     url(r'^category/(?P<pk>\w+)/$',CaregoryView.as_view(),name='category-view'),
     url(r'^datearticle/(?P<year>\d+)/(?P<month>\d+)/$', DateArticleView.as_view(), name='datearticle-view'),
+    url(r'^msgbook/$',MsgBookView.as_view(),name='msgbook-view'),
+    url(r'^photo/$',PhotoView.as_view(),name='photo-view'),
+    url(r'^photolist/(?P<pk>\d+)/$', PhothListView.as_view(), name='photolist-view'),
 ]
