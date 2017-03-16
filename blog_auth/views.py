@@ -304,7 +304,7 @@ class UserControl(View):
                 )
                 return HttpResponse(u"上传头像错误", status=500)
 
-            return HttpResponse(u"上传头像成功!\n(注意有10分钟缓存)")
+            return HttpResponse(u"上传头像成功!")
 
         except Exception as e:
             request.user.tximg = "/static/tx/"+filename
@@ -319,7 +319,7 @@ class UserControl(View):
                 )
                 return HttpResponse(u"上传头像错误", status=500)
 
-            return HttpResponse(u"上传头像成功!\n(注意有10分钟缓存)")
+            return HttpResponse(u"上传头像成功!")
 
     def notification(self, request):
         if not request.user.is_authenticated():
