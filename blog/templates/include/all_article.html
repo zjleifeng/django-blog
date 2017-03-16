@@ -28,23 +28,32 @@
     	</div>
     	<!-- Portfolio Items -->
     	<div id="portfolioItems" class="single">
+        <div class="portfolioItem" data-id="id-1" data-type="packaging branding development">
+
+	    		<div>
             {% if obj_list %}
                 {% for obj in obj_list %}
                     {% include "include/post_article.html" %}
                 {% endfor %}
                 {% else %}
-                <p>暂时没有此类文章</p>
+                <p>暂时没有更多此类文章</p>
         {% endif %}
-
+</div>
+	    		<div class="clearfix"></div>
+	    	</div>
         </div>
+    {% if page_obj %}
+        {% include 'include/pagination.html' %}
+    {% endif %}
      <div id="loading" style="height:100px;line-height:100px;text-align:center;display:none;">
                 <img src="/static/img/footer/loading.gif" alt="">
             </div>
+    {% if not isend %}
                 <button id="all-post-more" type="button" class="btn btn-eric" value="all" style="width:100%">
                             加载更多
                     <span class="glyphicon glyphicon-menu-down"></span>
                 </button>
-
+{% endif %}
 <script language="javascript" type="text/javascript">
 
     var start = 0;
@@ -95,7 +104,7 @@
         $.ajax({
             type:"POST",
             url:"/all/",
-            data:{"val":$(this).attr("value"),"sort":$("input[name='sort']:checked").val(),"start":start,"end":end},
+            data:{"val":$(this).attr("value"),"start":start,"end":end},
             beforeSend:function(xhr){
                 xhr.setRequestHeader("X-CSRFToken", $.cookie('csrftoken'));
             },

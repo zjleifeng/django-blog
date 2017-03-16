@@ -9,7 +9,7 @@
 from django.shortcuts import render
 from django.core.cache import caches
 from myblog import settings
-from blog.models import Article,Comment,Links,Tag,Category,Aboutme,MsgBook,Photo,Album
+from blog.models import Article,Comment,Links,Tag,Category,Aboutme,MsgBook,Photo,Album,Notification
 from django.views.generic import TemplateView,ListView,DetailView,View
 from django.db.models import Q
 from django.http import HttpResponse,Http404,HttpResponseRedirect
@@ -17,6 +17,8 @@ from django import template
 import json
 import logging
 import re
+from django.views.generic.edit import UpdateView,CreateView
+from blog.forms import AddArticleForm
 # Create your views here.
 #缓存
 try:
@@ -192,7 +194,7 @@ class AllView(BaseMixin,ListView):
         start = int(start)
         end = int(end)
         if val=="all":
-            obj_list=Article.objects.filter(status=0).order_by('-create_time')[0:end]
+            obj_list=Article.objects.filter(status=0).order_by('-create_time')[start:end+1]
         else:
             try:
                 obj_list=Category.objects.get(name=val).article_set.filter(status=0).order_by("-create_time")[start:end+1]
@@ -239,9 +241,33 @@ class PostCommentView(View):
             parent_id=int(parent)
             try:
                 parent_comment=Comment.objects.get(pk=parent_id)
+                if parent_comment.authuser:
+                    info = u'{}回复了你在 {} 的评论'.format(
+                        username,
+                        parent_comment.article.title
+                    )
+                    Notification.objects.create(
+                        title=info,
+                        text=content,
+                        from_user=username,
+                        to_user=parent_comment.authuser,
+                        url='/article/' + en_id
+                    )
             except Comment.DoesNotExist:
                 return HttpResponse("错误！")
-        comment=Comment.objects.create(
+        else:
+            info = u'{}评论了你的文章: {} '.format(
+                username,
+                article.title
+            )
+            Notification.objects.create(
+                title=info,
+                text=content,
+                from_user=username,
+                to_user=article.author,
+                url='/article/' + en_id
+            )
+        Comment.objects.create(
             username=username,content=content,email=email,siteurl=website,authuser=userauth,article=article,parent=parent_comment
         )
         print_comment=u''
@@ -254,7 +280,7 @@ class PostCommentView(View):
 
 #搜索
 class SearchView(BaseMixin,ListView):
-    template_name = 'include/all_article.html'
+    template_name = 'include/search.html'
     context_object_name = 'obj_list'
     paginate_by = settings.PAGE_NUM
 
@@ -262,7 +288,8 @@ class SearchView(BaseMixin,ListView):
         kwargs['first_list'] = "搜索"
         kwargs["sec_list"] = self.request.GET.get("word","")
         kwargs["word"]=self.request.GET.get("word","")
-        kwargs['category_list'] = Category.objects.all()
+        #kwargs['category_list'] = Category.objects.all()
+        kwargs['isend']=True
         return super(SearchView,self).get_context_data(**kwargs)
 
     def get_queryset(self):
@@ -360,19 +387,19 @@ class AboutMeView(BaseMixin,ListView):
 
 #留言
 class MsgBookView(BaseMixin,ListView):
-    template_name = 'include/msgbox.html'
+    template_name = 'include/msgbook.html'
     context_object_name = 'obj_list'
 
 
 
     def get_queryset(self):
-        obj_list = MsgBook.objects.filter(status=0).order_by('-create_time')[0:settings.PAGE_NUM]
+        obj_list = MsgBook.objects.filter(status=0).order_by('-create_time')
         return obj_list
 
 
     def get_context_data(self, **kwargs):
         try:
-            msgbook=MsgBook.objects.filter(status=0)[0:settings.PAGE_NUM]
+            msgbook=MsgBook.objects.filter(status=0)
             obj_list=[]
             for msg in msgbook:
                 for item in msgbook:
@@ -383,7 +410,7 @@ class MsgBookView(BaseMixin,ListView):
                         break
                 if msg.parent is None:
                     obj_list.append(msg)
-            comment_len=len(obj_list)
+
             kwargs['msgbook_list'] = obj_list
             kwargs['msgclass'] = 'current'
         except Article.DoesNotExist:
@@ -441,3 +468,52 @@ class PhothListView(BaseMixin,ListView):
         obj_list=Photo.objects.filter(album=ablum).order_by("-rank")
 
         return obj_list
+
+class AddArticleView(CreateView):
+    template_name = 'include/addarticle.html'
+    model = Article
+    success_url ='/'
+    form_class =AddArticleForm
+
+
+
+class UserView(BaseMixin, TemplateView):
+    #template_name = 'blog/user.html'
+
+    def get(self, request, *args, **kwargs):
+
+        if not request.user.is_authenticated():
+            logger.error(u'[UserView]用户未登陆')
+            #return render(request, 'blog/login.html')
+            return HttpResponse("先登录！")
+
+        slug = self.kwargs.get('slug')
+
+        if slug == 'changetx':
+            self.template_name = 'sys/user_changetx.html'
+        elif slug == 'changepassword':
+            self.template_name = 'sys/user_changepassword.html'
+        elif slug == 'changeinfo':
+            self.template_name = 'blog/user_changeinfo.html'
+        elif slug == 'message':
+            self.template_name = 'blog/user_message.html'
+        elif slug == 'notification':
+            self.template_name = 'sys/user_notification.html'
+
+        return super(UserView, self).get(request, *args, **kwargs)
+
+        logger.error(u'[UserView]不存在此接口')
+        raise Http404
+
+    def get_context_data(self, **kwargs):
+        context = super(UserView, self).get_context_data(**kwargs)
+
+        slug = self.kwargs.get('slug')
+
+        if slug == 'notification':
+            context['notifications'] = \
+                self.request.user.to_user_notification_set.order_by(
+                    '-create_time'
+                ).all()
+
+        return context

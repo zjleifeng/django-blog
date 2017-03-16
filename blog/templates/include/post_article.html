@@ -1,19 +1,17 @@
 {%  url "article-view" obj.id as article_url %}
 <!-- Portfolio Item -->
-	    	<div class="portfolioItem" data-id="id-1" data-type="packaging branding development">
 
-	    		<div>
-		    		<h2>{{ obj.title }}</h2>
+		    		<h3><a  href="{{ article_url }}">{{ obj.title }}</a></h3>
+                <!--
                     {% if obj.img %}
 
 	    		<a href="{{ article_url }}"><img src="../../media/{{ obj.img }}" alt="News item image" /></a>
             {% endif %}
-		    		<div>{{ obj.content|slice:"300"|linebreaks }}...</div>
+            -->
+		    		<div>{{ obj.content|slice:"50"|linebreaks }}</div>
 <a href="{{ article_url }}">查看全文 &raquo;</a>
 		    		<div class="tags">
 
 		    		</div>
-	    		</div>
-	    		<div class="clearfix"></div>
-	    	</div>
+
 	    	<!-- End Portfolio Item -->

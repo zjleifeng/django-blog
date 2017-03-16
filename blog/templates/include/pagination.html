@@ -1,14 +1,23 @@
-  <!-- Pagination -->
-	    	<div class="pagination">
-		    	<ul>
-		    		<li>&laquo;</li>
-		    		<li class="paginationPrev">&#60;</li>
-		    		<li><a href="#" class="currentPage">1</a></li>
-		    		<li><a href="#">2</a></li>
-		    		<li><a href="#">3</a></li>
-		    		<li class="paginationNext"><a href="#">&#62;</a></li>
-		    		<li><a href="#">&raquo;</a></li>
-		    	</ul>
-		    	<div class="clearfix"></div>
-	    	</div>
-	    	<!-- End Pagination -->
+<ul class="pager">
+    {% if  page_obj.has_previous %}
+        <li class="previous">
+            <a href="?page={{page_obj.previous_page_number}}&word={{ word }}">&larr; 上一页</a>
+        </li>
+    {% else %}
+        <li class="previous disabled">
+            <a>&larr; 上一页</a>
+        </li>
+    {% endif %}
+
+    <a style="color: red;">{{page_obj.number}}</a>/{{paginator.num_pages}}
+
+    {% if  page_obj.has_next%}
+        <li class="next">
+            <a href="?page={{page_obj.next_page_number}}&word={{ word }}">下一页 &rarr;</a>
+        </li>
+    {% else %}
+        <li class="next disabled">
+            <a>下一页 &rarr;</a>
+        </li>
+    {% endif %}
+</ul>

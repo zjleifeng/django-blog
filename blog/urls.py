@@ -8,15 +8,21 @@
 
 from django.conf.urls import include, url
 from django.contrib import admin
-from blog.views import IndexView,ArticleView,AllView,PostCommentView,SearchView,CaregoryView,TagsView,DateArticleView,AboutMeView,MsgBookView,PhotoView,PhothListView
+from blog.views import IndexView,ArticleView,AllView,PostCommentView,SearchView,CaregoryView,TagsView,DateArticleView,AboutMeView,MsgBookView,PhotoView,PhothListView,AddArticleView,UserView
 from myblog import settings
 from django.views.generic import TemplateView, DetailView
 
 urlpatterns = [
     url(r'^$',IndexView.as_view(),name='index_view'),
+    url(r'^login/$',
+            TemplateView.as_view(template_name="sys/login.html"),
+            name='login-view'),
+    url(r'^register/$',
+            TemplateView.as_view(template_name="sys/register.html"),
+            name='register-view'),
     url(r'^forgetpassword/$',
-            TemplateView.as_view(template_name="sys/forgetpassword.html"),
-            name='forgetpassword-view'),
+        TemplateView.as_view(template_name="sys/forgetpassword.html"),
+        name='forgetpassword-view'),
     url(r'^resetpassword/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>.+)/$',
             TemplateView.as_view(template_name="sys/resetpassword.html"),
             name='resetpassword-view'),
@@ -34,4 +40,6 @@ urlpatterns = [
     url(r'^msgbook/$',MsgBookView.as_view(),name='msgbook-view'),
     url(r'^photo/$',PhotoView.as_view(),name='photo-view'),
     url(r'^photolist/(?P<pk>\d+)/$', PhothListView.as_view(), name='photolist-view'),
+    url(r'^addarticle/$',AddArticleView.as_view(),name='addarticle-view'),
+    url(r'^user/(?P<slug>\w+)$', UserView.as_view(), name='user-view'),
 ]

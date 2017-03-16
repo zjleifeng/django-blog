@@ -1,0 +1,51 @@
+{% extends "./base.html"%}
+
+{% block main%}
+
+{% url 'forgetpassword-view' as forgetpassword_url %}
+{% url 'register-view' as register_url %}
+{% url 'user-view' 'changetx' as changetx_url %}
+{% url 'user-view' 'changepassword' as changepassword_url %}
+{% url 'user-view' 'notification' as notification_url %}
+{% url 'login-view' as login_url%}
+        <!-- 右侧导航 -->
+<!-- Sidebar -->
+<div id="content">
+    {%include "./changetx.html"%}
+</div>
+    	<div id="sidebar">
+
+         <a class="list-group-item"style="background: none;border:none;">
+            <img src="{{user.tximg}}" alt="" width="40">
+            &nbsp;{{user.username}}
+        </a>
+        <a href="{{changetx_url}}"class="list-group-item"style="background: none;border:none;color: red">
+            修改头像
+            <span class="glyphicon glyphicon-chevron-right pull-right"></span>
+        </a>
+        <a href="{{changepassword_url}}"class="list-group-item "style="background: none;border:none;">
+            修改密码
+            <span class="glyphicon glyphicon-chevron-right pull-right"></span>
+        </a>
+        <a href="{{notification_url}}"class="list-group-item"style="background: none;border:none;">
+            消息
+            <span class="glyphicon glyphicon-chevron-right pull-right"></span>
+        </a>
+        <a href="{{register_url}}"class="list-group-item"style="background: none;border:none;">
+            注册新用户
+            <span class="glyphicon glyphicon-chevron-right pull-right"></span>
+        </a>
+        <a href="{{login_url}}"class="list-group-item"style="background: none;border:none;">
+            重新登陆
+            <span class="glyphicon glyphicon-chevron-right pull-right"></span>
+        </a>
+    	</div>
+    	<!-- End Sidebar -->
+
+
+
+
+
+
+
+{%endblock%}

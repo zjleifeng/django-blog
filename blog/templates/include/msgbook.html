@@ -53,10 +53,15 @@
                 </div>
 
               <!-- End Comment -->
-              {% endfor %} </div>
+              {% endfor %}
+            </div>
             <!-- End Comment -->
 
             {% endfor %}
+                </div>
+            {% if page_obj %}
+                {% include 'include/pagination.html' %}
+            {% endif %}
             </ul>
 
           </div>

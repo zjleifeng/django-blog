@@ -1,7 +1,18 @@
-
+{% url 'user-view' 'changetx' as changetx_url %}
 {% url 'msgbook-view' as msgbook_url %}
 {% url 'photo-view' as photo_url %}
+{% url 'user-view' 'changepassword' as changepassword_url%}
+{% url 'user-view' 'notification' as notification_url%}
 {% block css %}
+
+
+    <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="/static/css/login/eric_auth.css">
+    <link rel="stylesheet" href="/static/jquery/jquery.Jcrop.min.css">
+    <link href="/static/css/templatemo_style.css" rel="stylesheet" type="text/css" />
+
+    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
 
 <link rel="stylesheet" type="text/css" href="/static/css/login/style.css"/>
 <script src="/static/js/login/jquery-1.7.2.min.js" type="text/javascript"></script>

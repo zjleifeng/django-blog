@@ -153,7 +153,7 @@ CACHES={
 
 
 #分页设置
-PAGE_NUM=10
+PAGE_NUM=2
 
 #网站标题设置
 WEBSITE_TITLE=u'django_my-blog'

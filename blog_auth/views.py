@@ -245,7 +245,7 @@ class UserControl(View):
         imgData = base64.b64decode(data)
 
         filename = "tx_100x100_{}.jpg".format(request.user.id)
-        filedir = "eric_auth/static/tx/"
+        filedir = "blog_auth/static/tx/"
         static_root = getattr(settings, 'STATIC_ROOT', None)
         if static_root:
             filedir = os.path.join(static_root, 'tx')
@@ -307,7 +307,7 @@ class UserControl(View):
             return HttpResponse(u"上传头像成功!\n(注意有10分钟缓存)")
 
         except Exception as e:
-            request.user.img = "/static/tx/"+filename
+            request.user.tximg = "/static/tx/"+filename
             request.user.save()
 
             # 验证上传是否错误

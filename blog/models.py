@@ -103,20 +103,7 @@ class Article(models.Model):
         verbose_name_plural=u'文章管理'
         ordering=['rank','-is_top','-create_time']
 
-    def save(self):
-        if self.img.width>480:
 
-            small_path='uploads/article/small'
-            x='uploads/article/small/'
-            super(Article,self).save()
-
-            base,ext= os.path.splitext(os.path.basename(self.img.path))
-            thumb_pixbuf=make_pic(os.path.join(settings.MEDIA_ROOT,self.img.name),(480,260))
-            relate_thumb_path=os.path.join(small_path,base+'.article'+ext)
-            thumb_path=os.path.join(relate_thumb_path)
-            thumb_pixbuf.save(thumb_path)
-            self.img=ImageFieldFile(self,self.img,x+base+'.article'+ext)
-        super(Article,self).save()
 
     def __unicode__(self):
         return self.title
@@ -213,10 +200,11 @@ class Notification(models.Model):
     text = models.TextField(verbose_name=u'内容')
     url = models.CharField(max_length=200, verbose_name=u'连接',
                            null=True, blank=True)
-    from_user = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                  default=None, blank=True, null=True,
-                                  related_name='from_user_notification_set',
-                                  verbose_name=u'发送者')
+    #from_user = models.ForeignKey(settings.AUTH_USER_MODEL,
+    #                              default=None, blank=True, null=True,
+    #                              related_name='from_user_notification_set',
+    #                              verbose_name=u'发送者')
+    from_user=models.CharField(max_length=20,default=u'游客',verbose_name=u'发送者')
     to_user = models.ForeignKey(settings.AUTH_USER_MODEL,
                                 related_name='to_user_notification_set',
                                 verbose_name=u'接收者')

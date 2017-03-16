@@ -46,7 +46,7 @@
             <!-- Comments header -->
             <div class="commentsHeader">
               <h4>评论</h4>
-              <a href="#">Leave a comment</a>
+              <a href="#anchor-quote">写评论留言</a>
               <div class="clearfix"></div>
             </div>
             <!-- End Comments header -->
@@ -61,7 +61,7 @@
                   <p class="commentDate">{{ comment.create_time|date:"Y-m-d H:i:s" }}</p>
                   <p>{{ comment.content }}</p>
                 </div>
-               <a href="#anchor-quote" onclick="return CommentQuote('{{ comment.username }}',{{ comment.id }})" class="replyBtn" title="回复" ></a>
+               <a href="#anchor-quote" onclick="return CommentQuote('{{ comment.username }}',{{ comment.id }},'{{ comment.content }}')" class="replyBtn" title="回复" ></a>
                 <!-- End Comment Content -->
                 <div class="clearfix"></div>
               </div>
@@ -75,7 +75,7 @@
                     <p class="commentDate">{{ children.create_time|date:"Y-m-d H:i:s" }}</p>
                     <p>{{ children.content }}</p>
                   </div>
-                  <a href="#anchor-quote" onclick="return CommentQuote('{{ children.username }}',{{ children.id }})" class="replyBtn" title="回复" ></a>
+                  <a href="#anchor-quote" onclick="return CommentQuote('{{ children.username }}',{{ children.id }},'{{ children.content }}')" class="replyBtn" title="回复" ></a>
                   <!-- End Comment Content -->
                   <div class="clearfix"></div>
                 </div>
@@ -106,9 +106,10 @@
                 {% csrf_token %}
               <h4>快来写下点什么吧！</h4>
               <div class="formLeft">
+
                 <p>
                   <label for="inputName">昵称: <span class="required">*</span></label>
-                  <input type="text" name="inputName" id="inputName" value="" />
+                  <input type="text" name="inputName" id="inputName" value="{{ user.username }}" />
                 </p>
                 <p>
                   <label for="inputEmail">Email: </label>
@@ -141,12 +142,12 @@
 </div>
 
 <script language="javascript" type="text/javascript">
-    function CommentQuote(user_name, commend_id){
+    function CommentQuote(user_name, commend_id,content){
         inputComment = document.getElementById('inputcommentlab');
         input=document.getElementById('inputComment');
         disid=document.getElementById('disid');
         disid.textContent=commend_id;
-        inputComment.textContent = "@"+user_name+":";
+        inputComment.textContent = "@"+user_name+":"+content;
         inputComment.style.color="red";
         input.focus();
         inputComment.setSelectionRange(comment.value.length, comment.value.length);

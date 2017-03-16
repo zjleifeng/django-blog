@@ -16,7 +16,9 @@
     {% elif not html%}
         <p>暂时还没有此类文章！</p>
     {% endif %}
-
+{% if page_obj %}
+    {% include './include/pagination.html' %}
+    {% endif %}
 	    </div>
     <!-- 右侧导航 -->
 <!-- Sidebar -->
