@@ -88,9 +88,9 @@ WSGI_APPLICATION = 'myblog.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'myblog',
-        'USER':'root',
-        'PASSWORD':'zjhan9901',
+        'NAME': '###',
+        'USER':'###',
+        'PASSWORD':'###',
         'HOST':'',
         'PORT':'',
     }
@@ -162,10 +162,10 @@ WEBSITE_NAME=u'myblog'
 
 #站点管理邮箱设置
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.163.com'                       # SMTP地址
+EMAIL_HOST = '###'                       # SMTP地址
 EMAIL_PORT = 25                       # SMTP端口
-EMAIL_HOST_USER = 'z_j_boy@163.com'                  #邮箱地址 例如: xxxxxx@163.com
-EMAIL_HOST_PASSWORD = 'hello1105'              # 邮箱密码（一般和邮箱登录密码不同，比如163邮箱需要进入邮箱后设置第三方登录密码）
-EMAIL_SUBJECT_PREFIX = u'myblog'       # 为邮件Subject-line前缀,默认是'[django]'
+EMAIL_HOST_USER = '####'                  #邮箱地址 例如: xxxxxx@163.com
+EMAIL_HOST_PASSWORD = '####'              # 邮箱密码（一般和邮箱登录密码不同，比如163邮箱需要进入邮箱后设置第三方登录密码）
+EMAIL_SUBJECT_PREFIX = u'###'       # 为邮件Subject-line前缀,默认是'[django]'
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
